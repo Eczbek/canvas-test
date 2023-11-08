@@ -1,10 +1,20 @@
-#include <bits/stdc++.h>
-#include <xieite/xieite.hpp>
+#include <chrono>
+#include <ostream>
+#include <string>
+#include <thread>
+#include <vector>
+#include <xieite/graphics/canvas.hpp>
+#include <xieite/graphics/color.hpp>
+#include <xieite/geometry/point.hpp>
+#include <xieite/geometry/polygon.hpp>
+#include <xieite/geometry/rotate.hpp>
+#include <xieite/geometry/scale.hpp>
+#include <xieite/streams/position.hpp>
 
 int main() {
 	xieite::graphics::Canvas canvas = xieite::graphics::Canvas(xieite::geometry::Point(0, 0), xieite::geometry::Point(20, 15));
-	canvas.controller.setInputEcho(false);
-	canvas.controller.setInputSignals(false);
+	canvas.handle.setInputEcho(false);
+	canvas.handle.setInputSignals(false);
 
 	xieite::geometry::Polygon poly = xieite::geometry::Polygon(std::vector<xieite::geometry::Point> {
 		xieite::geometry::Point(4, 7),
@@ -23,9 +33,9 @@ int main() {
 		canvas.draw(xieite::geometry::scale(xieite::geometry::rotate(poly, rotation, canvas.center), scale, canvas.center), xieite::graphics::Color(0, 0, 0));
 		canvas.draw(canvas.center, xieite::graphics::Color(255, 0, 0));
 		canvas.print(xieite::streams::Position(0, 0));
-		std::flush(canvas.controller.outputStream);
+		std::flush(canvas.handle.outputStream);
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
-		const std::string input = canvas.controller.readString();
+		const std::string input = canvas.handle.readString();
 		if (input.contains('q')) {
 			break;
 		}
